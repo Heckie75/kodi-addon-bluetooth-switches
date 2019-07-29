@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <category label="Voltcraft SEM-3600BT / SEM-6000">
+
+    <setting label="Devices" type="lsep"/>
+
+    <setting visible="eq(4,)" label="Discover bluetooth switches" type="lsep"/>
+    <setting label="No known switches. Run discover first!" type="text" visible="eq(3,)" enable="false"/>
+    <setting label="Start discovery" type="action" action="RunScript($ID,discover)" default=""/>
+
+    <setting label="Switch 1" type="lsep" visible="!eq(1,)"/>
+    <setting label="Model" type="text" id="sem_0_model" visible="!eq(0,)" enable="false" default="" />
+    <setting label="MAC" type="text" id="sem_0_mac" visible="!eq(0,)" enable="false" default=""/>
+    <setting label="Enabled" type="bool" id="sem_0_enabled" default="true" visible="!eq(-1,)"/>
+    <setting label="Name" visible="!eq(-2,)" type="text" id="sem_0_name" enable="true" default=""/>
+    <setting label="Icon" type="enum" id="sem_0_icon" default="0" values="Bathroom|Bedroom|Bulb|Candle|Coffeemachine|Computer|Cooker|Globe|Hall|Kitchen|Lamp|Livingroom|Power|Printer|Radio|Server|TV" visible="!eq(-3,)"/>
+    <setting label="PIN" type="number" id="sem_0_pin" visible="!eq(-4,)" enable="true" default="1234"/>
+    <setting label="Auto turn off" type="enum" id="sem_0_autooff" default="0" values="No|5 min.|10 min.|15 min.|30 min.|60 min.|90 min.|120 min." visible="!eq(-5,)"/>
+
+    <setting label="Switch 2" type="lsep" visible="!eq(1,)"/>
+    <setting label="Model" type="text" id="sem_1_model" visible="!eq(0,)" enable="false" default="" />
+    <setting label="MAC" type="text" id="sem_1_mac" visible="!eq(0,)" enable="false" default=""/>
+    <setting label="Enabled" type="bool" id="sem_1_enabled" default="true" visible="!eq(-1,)"/>
+    <setting label="Name" visible="!eq(-2,)" type="text" id="sem_1_name" enable="true" default=""/>
+    <setting label="Icon" type="enum" id="sem_1_icon" default="0" values="Bathroom|Bedroom|Bulb|Candle|Coffeemachine|Computer|Cooker|Globe|Hall|Kitchen|Lamp|Livingroom|Power|Printer|Radio|Server|TV" visible="!eq(-3,)"/>
+    <setting label="PIN" type="number" id="sem_1_pin" visible="!eq(-4,)" enable="true" default="1234"/>
+    <setting label="Auto turn off" type="enum" id="sem_1_autooff" default="0" values="No|5 min.|10 min.|15 min.|30 min.|60 min.|90 min.|120 min." visible="!eq(-5,)"/>
+
+    <setting label="Switch 3" type="lsep" visible="!eq(1,)"/>
+    <setting label="Model" type="text" id="sem_2_model" visible="!eq(0,)" enable="false" default="" />
+    <setting label="MAC" type="text" id="sem_2_mac" visible="!eq(0,)" enable="false" default=""/>
+    <setting label="Enabled" type="bool" id="sem_2_enabled" default="true" visible="!eq(-1,)"/>
+    <setting label="Name" visible="!eq(-2,)" type="text" id="sem_2_name" enable="true" default=""/>
+    <setting label="Icon" type="enum" id="sem_2_icon" default="0" values="Bathroom|Bedroom|Bulb|Candle|Coffeemachine|Computer|Cooker|Globe|Hall|Kitchen|Lamp|Livingroom|Power|Printer|Radio|Server|TV" visible="!eq(-3,)"/>
+    <setting label="PIN" type="number" id="sem_2_pin" visible="!eq(-4,)" enable="true" default="1234"/>
+    <setting label="Auto turn off" type="enum" id="sem_2_autooff" default="0" values="No|5 min.|10 min.|15 min.|30 min.|60 min.|90 min.|120 min." visible="!eq(-5,)"/>
+
+    <setting label="Switch 4" type="lsep" visible="!eq(1,)"/>
+    <setting label="Model" type="text" id="sem_3_model" visible="!eq(0,)" enable="false" default="" />
+    <setting label="MAC" type="text" id="sem_3_mac" visible="!eq(0,)" enable="false" default=""/>
+    <setting label="Enabled" type="bool" id="sem_3_enabled" default="true" visible="!eq(-1,)"/>
+    <setting label="Name" visible="!eq(-2,)" type="text" id="sem_3_name" enable="true" default=""/>
+    <setting label="Icon" type="enum" id="sem_3_icon" default="0" values="Bathroom|Bedroom|Bulb|Candle|Coffeemachine|Computer|Cooker|Globe|Hall|Kitchen|Lamp|Livingroom|Power|Printer|Radio|Server|TV" visible="!eq(-3,)"/>
+    <setting label="PIN" type="number" id="sem_3_pin" visible="!eq(-4,)" enable="true" default="1234"/>
+    <setting label="Auto turn off" type="enum" id="sem_3_autooff" default="0" values="No|5 min.|10 min.|15 min.|30 min.|60 min.|90 min.|120 min." visible="!eq(-5,)"/>
+
+    <setting label="Switch 5" type="lsep" visible="!eq(1,)"/>
+    <setting label="Model" type="text" id="sem_4_model" visible="!eq(0,)" enable="false" default="" />
+    <setting label="MAC" type="text" id="sem_4_mac" visible="!eq(0,)" enable="false" default=""/>
+    <setting label="Enabled" type="bool" id="sem_4_enabled" default="true" visible="!eq(-1,)"/>
+    <setting label="Name" visible="!eq(-2,)" type="text" id="sem_4_name" enable="true" default=""/>
+    <setting label="Icon" type="enum" id="sem_4_icon" default="0" values="Bathroom|Bedroom|Bulb|Candle|Coffeemachine|Computer|Cooker|Globe|Hall|Kitchen|Lamp|Livingroom|Power|Printer|Radio|Server|TV" visible="!eq(-3,)"/>
+    <setting label="PIN" type="number" id="sem_4_pin" visible="!eq(-4,)" enable="true" default="1234"/>
+    <setting label="Auto turn off" type="enum" id="sem_4_autooff" default="0" values="No|5 min.|10 min.|15 min.|30 min.|60 min.|90 min.|120 min." visible="!eq(-5,)"/>
+
+    <setting label="Switch 6" type="lsep" visible="!eq(1,)"/>
+    <setting label="Model" type="text" id="sem_5_model" visible="!eq(0,)" enable="false" default="" />
+    <setting label="MAC" type="text" id="sem_5_mac" visible="!eq(0,)" enable="false" default=""/>
+    <setting label="Enabled" type="bool" id="sem_5_enabled" default="true" visible="!eq(-1,)"/>
+    <setting label="Name" visible="!eq(-2,)" type="text" id="sem_5_name" enable="true" default=""/>
+    <setting label="Icon" type="enum" id="sem_5_icon" default="0" values="Bathroom|Bedroom|Bulb|Candle|Coffeemachine|Computer|Cooker|Globe|Hall|Kitchen|Lamp|Livingroom|Power|Printer|Radio|Server|TV" visible="!eq(-3,)"/>
+    <setting label="PIN" type="number" id="sem_5_pin" visible="!eq(-4,)" enable="true" default="1234"/>
+    <setting label="Auto turn off" type="enum" id="sem_5_autooff" default="0" values="No|5 min.|10 min.|15 min.|30 min.|60 min.|90 min.|120 min." visible="!eq(-5,)"/>
+
+  </category>
+
+</settings>

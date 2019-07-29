@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.audio.bluetooth-switches" name="Renkforce BS-21 / Voltcraft SEM-3600BT / SEM-6000 Control" version="0.0.2"
+	provider-name="Heckie">
+	<requires>
+		<import addon="xbmc.python" version="2.25.0" />
+		<import addon="xmbc.json" version="7.0.0" />
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="addon.py">
+		<provides>audio</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en_gb">Renkforce BS-21 / Voltcraft SEM-3600BT / SEM-6000 Control</summary>
+		<description lang="en_gb">Renkforce BS-21 / Voltcraft SEM-3600BT / SEM-6000 Control</description>
+		<disclaimer lang="en_gb"></disclaimer>
+		<language></language>
+		<platform>linux</platform>
+		<license></license>
+		<forum></forum>
+		<website></website>
+		<email></email>
+		<source></source>
+		<news>v0.0.1 (2019-07-27)
+		- development starts
+		</news>
+		<assets>
+			<icon>resources/assets/icon_power.png</icon>
+			<screenshot>resources/assets/screenshot2.png</screenshot>
+			<screenshot>resources/assets/screenshot1.png</screenshot>
+			<screenshot>resources/assets/screenshot3.png</screenshot>
+		</assets>
+	</extension>
+</addon>
