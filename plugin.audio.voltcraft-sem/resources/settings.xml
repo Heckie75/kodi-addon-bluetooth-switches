@@ -37,7 +37,7 @@
 
     <setting label="Switch 4" type="lsep" visible="!eq(1,)"/>
     <setting label="Model" type="text" id="sem_3_model" visible="!eq(0,)" enable="false" default="" />
-    <setting label="MAC" type="text" id="sem_3mac" visible="!eq(0,)" enable="false" default=""/>
+    <setting label="MAC" type="text" id="sem_3_mac" visible="!eq(0,)" enable="false" default=""/>
     <setting label="Enabled" type="bool" id="sem_3_enabled" default="true" visible="!eq(-1,)"/>
     <setting label="Name" visible="!eq(-2,)" type="text" id="sem_3_name" enable="true" default=""/>
     <setting label="Icon" type="enum" id="sem_3_icon" default="0" values="Bathroom|Bedroom|Bulb|Candle|Coffeemachine|Computer|Cooker|Globe|Hall|Kitchen|Lamp|Livingroom|Power|Printer|Radio|Server|TV" visible="!eq(-3,)"/>

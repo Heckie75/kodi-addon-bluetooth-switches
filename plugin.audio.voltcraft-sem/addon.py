@@ -17,8 +17,9 @@ __PLUGIN_ID__ = "plugin.audio.voltcraft-sem"
 
 SLOTS = 6
 
-SEM6000 = "Voltcraft SEM-6000"
+SEM6000   = "Voltcraft SEM-6000"
 SEM3600BT = "Voltcraft SEM-3600BT"
+BS21      = "Renkforce BS-21"
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -57,13 +58,15 @@ def _exec_bluetoothctl():
 
     out, err = p2.communicate()
 
-    for match in re.finditer('([0-9A-F:]+) (WiT Power Meter|Voltcraft)',
+    for match in re.finditer('([0-9A-F:]+) (WiT Power Meter|Voltcraft|BS-21-[0-9]{6}-[01]-A)',
                              out.decode("utf-8")):
         macs += [match.group(1)]
         names += [match.group(2)]
 
         if match.group(2) == "Voltcraft":
             models += [ SEM6000 ]
+        elif match.group(2).startswith("BS-21-"):
+            models += [ BS21 ]
         else:
             models += [ SEM3600BT ]
 
@@ -115,17 +118,17 @@ def discover():
 
     if len(macs) == 0:
         xbmc.executebuiltin(
-            "Notification(No Voltcraft SEM found, " 
+            "Notification(No supported bluetooth switches found, " 
             "Check if at least one switch is paired!)")
 
     elif len(inserts) == 0:
         xbmc.executebuiltin(
-            "Notification(No new SEMs found, "
-            "Check already paired SEMs!)")
+            "Notification(No new bluetooth switches found, "
+            "Check already paired bluetooth switches!)")
     else:
         xbmc.executebuiltin(
             "Notification(New bluetooth SEM found, "
-            "%i new SEMs added to device list)" % len(inserts))
+            "%i new bluetooth switches added to device list)" % len(inserts))
 
 
 
@@ -283,16 +286,33 @@ def browse(path, url_params):
 
 
 
-def _exec_gatttool(model, mac, pin, params):
+def _call_switch(model, mac, pin, toggle, auto_off):
+
+    if auto_off != None:
+        _hh = auto_off[0]
+        _mm = auto_off[1]
+    else:
+        _hh = 0
+        _mm = 0
 
     call = []
-
     if model == SEM6000:
-        call += [ addon_dir + os.sep + "lib" + os.sep + "sem-6000.exp", mac, pin ]
-    else:
-        call += [ addon_dir + os.sep + "lib" + os.sep + "vc-sem.exp", mac ]
+        call += [ addon_dir + os.sep + "lib" + os.sep + "sem-6000.exp", mac, pin, "--sync" ]
+        call += [ "--toggle" ] if toggle else []
+        call += [ "--countdown", "off", "+%i" % ( _hh * 60 + _mm ) ] if auto_off != None else []
+        call += [ "--status", "--json" ]
 
-    call += params
+    elif model == SEM3600BT:
+        call += [ addon_dir + os.sep + "lib" + os.sep + "vc-sem.exp", mac, "--sync" ]
+        call += [ "--toggle" ] if toggle else []
+        call += [ "--countdown", "off", "+%i" % ( _hh * 60 + _mm ) ] if auto_off != None else []
+        call += [ "--status", "--json" ]
+
+    else:
+        call += [ addon_dir + os.sep + "lib" + os.sep + "bs21.py", mac, pin, "-sync" ]
+        call += [ "-toggle" ] if toggle else []
+        call += [ "-countdown", "%.2d:%.2d:00" % ( _hh, _mm ), "off" ] if auto_off != None else []
+        call += [ "-json" ]
 
     xbmc.log(" ".join(call), xbmc.LOGNOTICE)
 
@@ -315,24 +335,19 @@ def execute(path, params):
 
     try:
         mac, alias, enabled, icon, autooff, model, pin = _read_settings(int(params["send"][0]))
-        xbmc.log("Voltcraft (%s): %s %s %s " % (model, mac, pin, alias), xbmc.LOGNOTICE)
-
-        send = [ "--toggle" ]
-        _hm = _autooff[int(autooff)]
-        if autooff != "0":
-            _min = _hm[0] * 60 + _hm[1]
-            send += [ "--countdown", "off", "+%i" % ( _min ) ]
-
-        send += [ "--status", "--json" ]
-
-        output = _exec_gatttool(model, mac, pin, send)
+        xbmc.log("Bluetooth Switch (%s): %s %s %s " % (model, mac, pin, alias), xbmc.LOGNOTICE)
+        output = _call_switch(model, mac, pin, 1, _autooff[int(autooff)] )
         status = json.loads(output)
 
-        on = status["status"]["power"]
+        if model == BS21:
+            on = status["status"]["on"]
+        else:
+            on = status["status"]["power"]
 
         msg = "Turned " + ("on" if on else "off")
         if "silent" not in params:
             if on and autooff != "0":
+                _min = _autooff[int(autooff)][0] * 60 + _autooff[int(autooff)][1]
                 xbmc.executebuiltin("AlarmClock(%s, Notification(%s, %s, %s/resources/assets/%s.png), %d, True)"
                             % (alias, alias, alias + " is ready", addon_dir, icon, _min))
 
@@ -340,7 +355,7 @@ def execute(path, params):
                         % (alias, msg, addon_dir, icon))
 
     except Exception as ex:
-        xbmc.log("Voltcraft: %s" % str(ex), xbmc.LOGERROR)
+        xbmc.log("Bluetooth Switch: %s" % str(ex), xbmc.LOGERROR)
         if "silent" not in params:
             xbmc.executebuiltin("Notification(%s, %s, %s/resources/assets/%s.png)"
                         % (alias, "Failed! Try again", addon_dir, icon))
