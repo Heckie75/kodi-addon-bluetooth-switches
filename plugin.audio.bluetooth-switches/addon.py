@@ -13,7 +13,7 @@ import xbmcgui
 import xbmcplugin
 import xbmcaddon
 
-__PLUGIN_ID__ = "plugin.audio.voltcraft-sem"
+__PLUGIN_ID__ = "plugin.audio.bluetooth-switches"
 
 SLOTS = 6
 
@@ -49,7 +49,7 @@ def _exec_bluetoothctl():
     names = []
     models = []
 
-    p1 = subprocess.Popen(["echo", "-e", "devices\nquit\n\n"],
+    p1 = subprocess.Popen(["echo", "-e", "select 00:1A:7D:DA:71:13\ndevices\nquit\n\n"],
                                 stdout=subprocess.PIPE)
     p2 = subprocess.Popen(["bluetoothctl"], stdin=p1.stdout,
                             stdout=subprocess.PIPE,
@@ -257,8 +257,23 @@ def _build_dir_structure(path, url_params):
                 "path" : mac,
                 "name" : alias,
                 "icon" : _icons[int(icon)],
-                "send" : "%i" % i,
-                "msg" : alias
+                "msg" : alias,
+                "node" : [
+                    {
+                        "path" : "on",
+                        "name" : "turn on",
+                        "icon" : _icons[int(icon)],
+                        "send" : [ "%i" % i, "on" ],
+                        "msg" : alias
+                    },
+                    {
+                        "path" : "off",
+                        "name" : "turn off",
+                        "icon" : _icons[int(icon)],
+                        "send" : [ "%i" % i, "off" ],
+                        "msg" : alias
+                    }
+                ]
             }
         ]
 
@@ -286,7 +301,7 @@ def browse(path, url_params):
 
 
 
-def _call_switch(model, mac, pin, toggle, auto_off):
+def _call_switch(model, mac, pin, command, auto_off):
 
     if auto_off != None:
         _hh = auto_off[0]
@@ -298,19 +313,19 @@ def _call_switch(model, mac, pin, toggle, auto_off):
     call = []
     if model == SEM6000:
         call += [ addon_dir + os.sep + "lib" + os.sep + "sem-6000.exp", mac, pin, "--sync" ]
-        call += [ "--toggle" ] if toggle else []
+        call += [ "--%s" % command ] if command != "" else []
         call += [ "--countdown", "off", "+%i" % ( _hh * 60 + _mm ) ] if auto_off != None else []
         call += [ "--status", "--json" ]
 
     elif model == SEM3600BT:
         call += [ addon_dir + os.sep + "lib" + os.sep + "vc-sem.exp", mac, "--sync" ]
-        call += [ "--toggle" ] if toggle else []
+        call += [ "--%s" % command ] if command != "" else []
         call += [ "--countdown", "off", "+%i" % ( _hh * 60 + _mm ) ] if auto_off != None else []
         call += [ "--status", "--json" ]
 
     else:
         call += [ addon_dir + os.sep + "lib" + os.sep + "bs21.py", mac, pin, "-sync" ]
-        call += [ "-toggle" ] if toggle else []
+        call += [ "-%s" % command ] if command != "" else []
         call += [ "-countdown", "%.2d:%.2d:00" % ( _hh, _mm ), "off" ] if auto_off != None else []
         call += [ "-json" ]
 
@@ -335,8 +350,9 @@ def execute(path, params):
 
     try:
         mac, alias, enabled, icon, autooff, model, pin = _read_settings(int(params["send"][0]))
+        command = params["send"][1]
         xbmc.log("Bluetooth Switch (%s): %s %s %s " % (model, mac, pin, alias), xbmc.LOGNOTICE)
-        output = _call_switch(model, mac, pin, 1, _autooff[int(autooff)] )
+        output = _call_switch(model, mac, pin, command, _autooff[int(autooff)] )
         status = json.loads(output)
 
         if model == BS21:

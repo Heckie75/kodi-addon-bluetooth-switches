@@ -1,1 +1,0 @@
-/home/heckie/github-heckie75/renkforce-bs21-bluetooth-switch/bs21.py
