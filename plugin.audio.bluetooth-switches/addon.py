@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # -*- coding: utf-8 -*-
 
 import json
@@ -324,10 +324,10 @@ def _call_switch(model, mac, pin, command, auto_off):
         call += [ "--status", "--json" ]
 
     else:
-        call += [ addon_dir + os.sep + "lib" + os.sep + "bs21.py", mac, pin, "-sync" ]
-        call += [ "-%s" % command ] if command != "" else []
-        call += [ "-countdown", "%.2d:%.2d:00" % ( _hh, _mm ), "off" ] if auto_off != None else []
-        call += [ "-json" ]
+        call += [ addon_dir + os.sep + "lib" + os.sep + "bs21.py", mac, pin, "--sync" ]
+        call += [ "--%s" % command ] if command != "" else []
+        call += [ "--countdown", "%.2d:%.2d:00" % ( _hh, _mm ), "off" ] if auto_off != None else []
+        call += [ "--json" ]
 
     xbmc.log(" ".join(call), xbmc.LOGNOTICE)
 
