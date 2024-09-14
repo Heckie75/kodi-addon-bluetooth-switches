@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.audio.bluetooth-switches" name="Renkforce BS-21 / Voltcraft SEM-3600BT / SEM-6000 Control" version="2.0.0"
+<addon id="plugin.audio.bluetooth-switches" name="Renkforce BS-21 / Voltcraft SEM-3600BT / SEM-6000 Control" version="2.1.0"
 	provider-name="Heckie">
 	<extension point="xbmc.python.pluginsource" library="addon.py">
 		<provides>audio</provides>
@@ -15,8 +15,12 @@
 		<website></website>
 		<email></email>
 		<source></source>
-		<news>v2.0.0 (2020-02-20)
-		- Migration to Kodi v19 alias Matrix
+		<news>
+v2.1.0 (2024-09-14)
+- Updated to latest version of script for Renkforce BS21
+
+v2.0.0 (2020-02-20)
+- Migration to Kodi v19 alias Matrix
 		</news>
 		<assets>
 			<icon>resources/assets/icon_power.png</icon>
